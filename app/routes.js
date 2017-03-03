@@ -7,7 +7,11 @@ var userController = require('./controllers/userController');
 router.get('/healthcheck', proController.healthCheck);
 router.get('/', proController.getPage);
 router.post('/portofolio', proController.createEntry);
-router.get('/portofolio', proController.getData);
+router.get('/portofolio', proController.getPortofolio);
+router.get('/portofoliodata', proController.getData);
+
+router.get('/visitorgetdata', proController.getVisitorData);
+
 router.get('/register', userController.getRegister);
 router.post('/register', userController.register);
 router.get('/getusers', userController.getUsers);

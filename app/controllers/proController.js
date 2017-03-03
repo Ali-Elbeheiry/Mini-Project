@@ -11,6 +11,7 @@ let proController ={
 
     createEntry: function(req, res){
 	let newProject = new Project();
+	newProject.username = req.session.user.username;
 	newProject.name = req.body.name;
 	newProject.url = req.body.url;
 	newProject.save(function(err, save){
@@ -29,12 +30,10 @@ let proController ={
 	res.render('home');
     },
 
+        getVisitorData: function(req, res){
+        	var username = req.query.username;
 
-    getData: function(req, res){
-
-	var responseObject = undefined;
-	
-	Project.find({}, function(err, foundData){
+	Project.find({username: username}, function(err, foundData){
 		if (err){
 			console.log(err);
 			res.status(500).send();
@@ -44,12 +43,63 @@ let proController ={
 			}else
 			{
 				responseObject = foundData;
-				res.send(responseObject);
+				res.render('visitorviewportofolio', {
+					"foundData":foundData
+					});
 			}
 
 		}
 	});
 	
+   },
+
+
+
+    getData: function(req, res){
+
+	var responseObject = undefined;
+    
+	
+	Project.find({username: req.session.user.username}, function(err, foundData){
+		if (err){
+			console.log(err);
+			res.status(500).send();
+		}else{
+			if (foundData.length == 0){
+				res.status(404).send(responseObject);
+			}else
+			{
+				responseObject = foundData;
+				res.render('viewportofolio', {
+					"foundData":foundData
+					}
+					
+
+
+
+
+					// '<ul class="list-group">'+
+					//  '<li class="list-group-item">Username: '+foundData.username+'</li>'+
+					//   '<li class="list-group-item">Dapibus ac facilisis in '+foundData[0].username+'</li>'+
+					//   '<li class="list-group-item">Morbi leo risus</li>'+
+					//   '<li class="list-group-item">Porta ac consectetur ac</li>'+
+					//   '<li class="list-group-item">Vestibulum at eros</li>'+
+					// '</ul>'
+
+
+
+
+
+					);
+			}
+
+		}
+	});
+	
+   },
+
+   getPortofolio: function(req, res){
+        res.render('portofolio');
    },
 
    updateData: function(req, res){

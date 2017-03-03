@@ -14,19 +14,21 @@
 <body>
 
 <ul class="nav nav-pills">
-  <li role="presentation" class="active"><a href="/">Home</a></li>
-  <li role="presentation" ><a href="/login">Login</a></li>
-  <li role="presentation"><a href="/register">Register</a></li>
+  <li role="presentation" class="active"><a href="/portofolio">Portfolio </a></li>
+  <li role="presentation"><a href="/portofoliodata">View portfolios</a></li>
+  <li role="presentation" method = "post"><a href="/logout">Logout</a></li>
 </ul>
 
-<form action="/visitorgetdata" method="get">
+<form action="/portofolio" method="post">
 <div class="input-group col-md-4">
-  <input type="text" class="form-control" name="username" placeholder="Username">
+  <input type="text" class="form-control" name="name" placeholder="Name">
 </div>
-<input type="submit">
+
+<div class="input-group col-md-4" >
+  <input type="text" class="form-control " name="url" placeholder="URL">
+
+ <input type="submit">
 </form>
-
-
 
 </body>
 </html> 

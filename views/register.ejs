@@ -14,18 +14,17 @@
 <body>
 
 <ul class="nav nav-pills">
-  <li role="presentation" class="active"><a href="/login">Login</a></li>
   <li role="presentation"><a href="/">Home</a></li>
-  <li role="presentation"><a href="view_portfolios.ejs">View portfolios</a></li>
+  <li role="presentation" ><a href="/login">Login</a></li>
+  <li role="presentation" class="active"><a href="/register">Register</a></li>
 </ul>
-
 <form action="/register" method="post">
 <div class="input-group col-md-4">
   <input type="text" class="form-control" name="username" placeholder="Username">
 </div>
 
 <div class="input-group col-md-4" >
-  <input type="text" class="form-control " name="password" placeholder="Password">
+  <input type="password" class="form-control " name="password" placeholder="Password">
   
 </div>
 <div class="input-group col-md-4">

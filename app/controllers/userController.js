@@ -51,7 +51,10 @@ let userController = {
     				return res.status(404).render('index');
     			} else{
     				req.session.user = user;
-    				return res.status(200).render('dashboard');
+                    console.log(req.session.user.username);
+    				return res.status(200).render('dashboard',{
+                        name : user.firstname
+                    });
     			}
     		}    		
     	});
