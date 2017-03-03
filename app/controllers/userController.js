@@ -58,7 +58,7 @@ let userController = {
     			}
     		}    		
     	});
-    },
+    },  
 
     getLogin: function(req, res){
         res.render('index');

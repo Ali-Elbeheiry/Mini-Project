@@ -18,21 +18,23 @@
   <li role="presentation" class="active"><a href="/portofoliodata">View portfolios</a></li>
   <li role="presentation" method = "post"><a href="/logout">Logout</a></li>
 </ul>
-<% for(var i = 0; i < Object.keys(foundData).length; i ++ ){ %>
 
-              
-              
-                    <ul class="list-group">
-					  <li class="list-group-item">Project Name: <%=foundData[i].name%></li>
-					  <li class="list-group-item">Url: <%=foundData[i].url%></li>
-					</ul>
-			<form action="/editdata" method="post">
-			<input type="hidden" name="id" value= <%= foundData[i]._id%> >
-			<input type="submit" value ="edit">
-			</form>
-               
-					
-<% } %>
+<form action="/editportofolio" method="post">
+<div class="input-group col-md-4">
+  <input type="text" class="form-control" name="name" placeholder="Name" value= <%=foundData.name%> >
+</div>
+
+<div class="input-group col-md-4" >
+  <input type="text" class="form-control " name="url" placeholder ="URL" value= <%=foundData.url%> >
+
+  <input type="hidden" name="id" value= <%=foundData._id%> >
+
+ <input type="submit" value="Confirm">
+</form>
+<form action="/delete" method="post">
+<input type="hidden" name="id" value= <%=foundData._id%> >
+ <input type="submit" value="Delete">
+</form>
 
 </body>
 </html> 

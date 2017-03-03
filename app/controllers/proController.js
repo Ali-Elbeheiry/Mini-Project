@@ -7,71 +7,132 @@ let proController ={
 		var responseObject = {message: 'OK'};
 		res.send(responseObject);
 	},
-    
 
-    createEntry: function(req, res){
-	let newProject = new Project();
-	newProject.username = req.session.user.username;
-	newProject.name = req.body.name;
-	newProject.url = req.body.url;
-	newProject.save(function(err, save){
-		if(err){
-			console.log(err);
-			res.status(500).send('');
-		} else{
-			res.send(save);
-		}
-	});
 
-    },
-    
-
-    getPage: function(req, res){
-	res.render('home');
-    },
-
-        getVisitorData: function(req, res){
-        	var username = req.query.username;
-
-	Project.find({username: username}, function(err, foundData){
-		if (err){
-			console.log(err);
-			res.status(500).send();
-		}else{
-			if (foundData.length == 0){
-				res.status(404).send(responseObject);
-			}else
-			{
-				responseObject = foundData;
-				res.render('visitorviewportofolio', {
-					"foundData":foundData
-					});
+	createEntry: function(req, res){
+		let newProject = new Project();
+		newProject.username = req.session.user.username;
+		newProject.name = req.body.name;
+		newProject.url = req.body.url;
+		newProject.save(function(err, save){
+			if(err){
+				console.log(err);
+				res.status(500).send('');
+			} else{
+				res.send(save);
 			}
+		});
 
-		}
-	});
-	
-   },
+	},
+	getEditData: function(req, res){
+		var id = req.body.id;
+
+		Project.findOne({_id: id}, function(err, foundData){
+			if(err){
+				console.log(err);
+				res.status(500).send('');
+			}else {
+				
+				res.render('edit',{
+					"foundData": foundData	
+				});  	
+			} 
 
 
 
-    getData: function(req, res){
+		});
 
-	var responseObject = undefined;
-    
-	
-	Project.find({username: req.session.user.username}, function(err, foundData){
-		if (err){
-			console.log(err);
-			res.status(500).send();
-		}else{
-			if (foundData.length == 0){
-				res.status(404).send(responseObject);
-			}else
-			{
-				responseObject = foundData;
-				res.render('viewportofolio', {
-					"foundData":foundData
+	},
+	deleteData: function(req, res){
+		var id = req.body.id;
+
+		Project.findOneAndRemove({_id: id}, function(err){
+			if(err){
+				console.log(err);
+				res.status(500).send();
+			} else{
+				res.render('dashboard', {
+					name: req.session.user.firstname
+				});
+			} 
+		});
+	},
+
+	editData: function(req, res){
+		var id = req.body.id;
+		var name = req.body.name;
+		var url = req.body.url;
+
+		Project.findOne({_id: id}, function(err, foundData){
+			if(err){
+				console.log(err);
+				res.status(500).send('');
+			}else {
+				foundData.name = name;
+				foundData.url = url;
+
+				foundData.save(function(err, updateData){
+					if (err){
+						console.log(err);
+						res.status(500).send();
+					} else{
+						res.render('dashboard', {
+							name: req.session.user.firstname
+						});
+					}
+				})
+				
+			}
+		})
+	},
+
+
+	getPage: function(req, res){
+		res.render('home');
+	},
+
+	getVisitorData: function(req, res){
+		var username = req.query.username;
+
+		Project.find({username: username}, function(err, foundData){
+			if (err){
+				console.log(err);
+				res.status(500).send();
+			}else{
+				if (foundData.length == 0){
+					res.status(404).send(responseObject);
+				}else
+				{
+					responseObject = foundData;
+					res.render('visitorviewportofolio', {
+						"foundData":foundData
+					});
+				}
+
+			}
+		});
+
+	},
+
+
+
+	getData: function(req, res){
+
+		var responseObject = undefined;
+
+
+		Project.find({username: req.session.user.username}, function(err, foundData){
+			if (err){
+				console.log(err);
+				res.status(500).send();
+			}else{
+				if (foundData.length == 0){
+					res.status(404).send(responseObject);
+				}else
+				{
+					responseObject = foundData;
+					res.render('viewportofolio', {
+						"foundData":foundData
 					}
 					
 
@@ -91,48 +152,48 @@ let proController ={
 
 
 					);
+				}
+
 			}
+		});
 
-		}
-	});
-	
-   },
+	},
 
-   getPortofolio: function(req, res){
-        res.render('portofolio');
-   },
+	getPortofolio: function(req, res){
+		res.render('portofolio');
+	},
 
-   updateData: function(req, res){
-	var id = req.params.id
-	Choice.findOne({_id:id}, function(err, foundData){
-		if (err){
-			console.log(err);
-			res.status(500).send();
-		} else{
-			if(!foundData) {
-				res.status(404).send();
+	updateData: function(req, res){
+		var id = req.params.id
+		Choice.findOne({_id:id}, function(err, foundData){
+			if (err){
+				console.log(err);
+				res.status(500).send();
 			} else{
-				if(req.body.name) {
-					foundData.name = req.body.name;
-				}
-
-				if (req.body.icecream){
-					foundData.url = req.body.url;
-				}
-
-				foundData.save(function(err, updateData){
-					if(err) {
-						console.log(err);
-						res.status(500).send();
-					} else{
-						res.send(updateData);
+				if(!foundData) {
+					res.status(404).send();
+				} else{
+					if(req.body.name) {
+						foundData.name = req.body.name;
 					}
-				})
-			}
 
-		}
-	});
-   }
+					if (req.body.icecream){
+						foundData.url = req.body.url;
+					}
+
+					foundData.save(function(err, updateData){
+						if(err) {
+							console.log(err);
+							res.status(500).send();
+						} else{
+							res.send(updateData);
+						}
+					})
+				}
+
+			}
+		});
+	}
 
 
 

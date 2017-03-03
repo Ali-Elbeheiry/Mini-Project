@@ -11,6 +11,9 @@ router.get('/portofolio', proController.getPortofolio);
 router.get('/portofoliodata', proController.getData);
 
 router.get('/visitorgetdata', proController.getVisitorData);
+router.post('/editdata', proController.getEditData);
+router.post('/editportofolio', proController.editData);
+router.post('/delete', proController.deleteData);
 
 router.get('/register', userController.getRegister);
 router.post('/register', userController.register);
@@ -19,5 +22,6 @@ router.get('/login', userController.getLogin);
 router.post('/login', userController.login);
 router.get('/dashboard', userController.dashboard);
 router.get('/logout', userController.logout);
+
 
 module.exports = router;
